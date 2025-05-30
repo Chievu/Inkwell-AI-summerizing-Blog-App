@@ -14,7 +14,6 @@
     {% endif %}
 </head>
 <body>
-    <!-- Header -->
     <header class="site-header">
         <nav class="navbar navbar-expand-md navbar-white bg-white fixed-top">
             <div class="container">
@@ -27,14 +26,18 @@
                 <div class="collapse navbar-collapse" id="navbarToggle">
                     <div class="navbar-nav me-auto">
                         <a class="nav-item nav-link" href="{{ url_for('main.home') }}">
-                            <img src="{{ url_for('static', filename='imgs/black-home.png') }}" style="width: 30px; margin: 0 10px;" alt="Home Icon">
+                            <img src="{{ url_for('static', filename='imgs/black-home.png') }}" style="width: 30px; margin: 0 10px;" alt="Home Icon"
+                            tyle="cursor: pointer; color: #6c757d;"
+                            title="Home">
                         </a>
                         <a class="nav-item text-dark nav-link" href="{{ url_for('main.about') }}" style="margin-top:5px;">About</a>
                     </div>
                     <div class="navbar-nav ms-auto">
                         {% if current_user.is_authenticated %}
                             <a class="nav-item text-dark nav-link" href="{{ url_for('posts.new_post') }}"> 
-                                <img src="{{ url_for('static', filename='imgs/create.png') }}" style="width: 30px; margin: 0 10px;" alt="create Icon">
+                                <img src="{{ url_for('static', filename='imgs/create.png') }}" style="width: 30px; margin: 0 10px;" alt="create Icon"
+                                tyle="cursor: pointer; color: #6c757d;"
+                                title="Create blog">
                             </a>
                             <a class="nav-item text-dark nav-link" href="{{ url_for('users.account') }}">Profile</a>
                             <a class="nav-item text-dark nav-link" href="{{ url_for('users.logout') }}">Sign out</a>
@@ -127,14 +130,12 @@
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="bg-white text-dark text-center py-4 mt-5">
         <div class="container">
-            <p class="mb-0">&copy; {{ 2025 }} Inkwell Blog. Curated with ❤️ for readers and writers everywhere.</p>
+            <p class="mb-0">&copy; {{ 2025 }} Inkwell Blog. Curated with Love for readers and writers everywhere.</p>
         </div>
     </footer>
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>
