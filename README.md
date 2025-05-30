@@ -1,26 +1,26 @@
-# Inkwell - AI Summarizing Blog App ✍️🧠
+# Inkwell - AI Summarizing Blog App 
 
 Inkwell is a modern Flask-based blog application enhanced with AI-powered summarization. Users can write, manage, and read blog posts, while the app uses natural language processing to summarize content intelligently.
 
-## 🚀 Features
+##  Features
 
-- 📝 Full blog post creation, editing, and deletion
-- 🔐 User registration, login, logout
-- 🖼️ Profile picture upload
-- 📷 Post image support
-- 🔍 Search functionality
-- 💬 Comments and likes (under development)
-- 🧠 AI-powered blog summarization
-- 📈 User dashboard and post statistics
-- 🛡️ CSRF protection, input validation, and Flask best practices
+-  Full blog post creation, editing, and deletion
+-  User registration, login, logout
+-  Profile picture upload
+-  Post image support
+-  Search functionality
+-  Comments and likes (under development)
+-  AI-powered blog summarization
+-  User dashboard and post statistics
+-  CSRF protection, input validation, and Flask best practices
 
-## 🧠 AI Integration
+##  AI Integration
 
 - Uses HuggingFace Transformers or custom summarizer model
 - Automatically summarizes long blog content
 - Designed for easy AI module replacement
 
-## 🧰 Tech Stack
+## Tech Stack
 
 - **Backend:** Flask, SQLAlchemy, Jinja2
 - **Frontend:** HTML, Bootstrap,css
@@ -28,7 +28,7 @@ Inkwell is a modern Flask-based blog application enhanced with AI-powered summar
 - **AI:** Custom NLP summarizer (transformers-based or textrank)
 - **Deployment:** Render / GitHub
 
-## 📂 Project Structure
+##  Project Structure
 
 gingerblog/
 │
@@ -43,7 +43,7 @@ gingerblog/
 ├── run.py # App entry point
 
 
-## 🛠️ Installation
+##  Installation
 
 ```bash
 git clone https://github.com/Chievu/Inkwell-AI-summerizing-Blog-App.git
