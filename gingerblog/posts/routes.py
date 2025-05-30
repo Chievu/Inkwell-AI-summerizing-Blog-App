@@ -79,7 +79,6 @@ def delete_post(post_id):
 
         db.session.commit()  # Commit changes to remove the likes
 
-        # 2) Now delete the post itself
         db.session.delete(post)
         db.session.commit()
 
@@ -94,11 +93,9 @@ def delete_post(post_id):
 def like_post(post_id):
     post = Post.query.get_or_404(post_id)
 
-    # Check if user already liked this post
     existing_like = Like.query.filter_by(user_id=current_user.id, post_id=post.id).first()
 
     if existing_like:
-        # User already liked, maybe unlike (toggle), or just return
         db.session.delete(existing_like)
         db.session.commit()
         liked = False
@@ -109,7 +106,6 @@ def like_post(post_id):
         db.session.commit()
         liked = True
 
-    # Return updated like count
     like_count = Like.query.filter_by(post_id=post.id).count()
 
     return jsonify({'likes': like_count, 'liked': liked})
