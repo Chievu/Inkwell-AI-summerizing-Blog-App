@@ -1,0 +1,86 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <h5 class="mb-3">All Posts by {{ user.username }} ({{ posts.total }})</h5>
+
+  {% for post in posts.items %}
+  <article class="media content-section position-relative">
+    <div class="d-flex align-items-start mb-2">
+      <img class="rounded-circle me-3"
+           src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}"
+           alt="Profile picture"
+           width="48" height="48">
+
+      <div class="flex-grow-1 d-flex flex-column">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center">
+            <a class="fw-bold text-dark me-2" href="{{ url_for('users.user_posts', username=post.author.username) }}">
+              {{ post.author.username }}
+            </a>
+            <small class="text-muted">{{ post.date_posted.strftime('%b %d, %Y') }}</small>
+          </div>
+
+          <i class="fas fa-robot fa-lg"
+             style="cursor: pointer; color: #6c757d;"
+             title="AI Summarizer"
+             onclick="summarizePost('{{ post.id }}')"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="media-body">
+      <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h2>
+      <div class="post-body mb-2">
+        {% if post.content|length > 350 %}
+          <div class="post-preview" id="preview-{{ post.id }}">
+            {{ post.content[:350] }}...
+          </div>
+          <div class="post-full-content d-none" id="full-{{ post.id }}">
+            {{ post.content }}
+          </div>
+          <a href="#" class="text-primary" id="read-more-{{ post.id }}" onclick="expandPost('{{ post.id }}'); return false;">Read more</a>
+        {% else %}
+          <div class="post-full-content">{{ post.content }}</div>
+        {% endif %}
+      </div>
+
+      {% if post.image_file %}
+      <div class="image-container" style="width: 100%; overflow: hidden; border-radius: 10px;">
+        <img src="{{ url_for('static', filename='post_images/' ~ post.image_file) }}"
+             class="post-image img-fluid"
+             style="width: 100%; max-height: 600px; height: auto; object-fit: cover; background-color: #f8f9fa; border-radius: 10px; transition: transform 0.5s ease;"
+             alt="Post Image">
+      </div>
+      {% endif %}
+
+      <!-- Post Interactions -->
+      <div class="d-flex justify-content-end mt-3">
+        <div class="d-flex gap-3 small text-muted">
+          <span class="d-flex align-items-center like-button"
+                style="cursor: pointer;"
+                data-post-id="{{ post.id }}"
+                id="like-{{ post.id }}">
+              ❤️ <span class="ms-1" id="like-count-{{ post.id }}">{{ post.like_count() }}</span>
+          </span>
+
+          <a href="{{ url_for('posts.post', post_id=post.id) }}#comments" class="d-flex align-items-center text-decoration-none text-muted">
+            💬 <span class="ms-1">{{ post.comments|length if post.comments else 0 }}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </article>
+  {% endfor %}
+
+  <!-- Pagination -->
+  {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+    {% if page_num %}
+      {% if posts.page == page_num %}
+        <a class="btn btn-info mb-4 pagination-btn active" href="{{ url_for('users.user_posts', username=user.username, page=page_num) }}">{{ page_num }}</a>
+      {% else %}
+        <a class="btn btn-outline-info mb-4 pagination-btn" href="{{ url_for('users.user_posts', username=user.username, page=page_num) }}">{{ page_num }}</a>
+      {% endif %}
+    {% else %}
+      ...
+    {% endif %}
+  {% endfor %}
+{% endblock content %}

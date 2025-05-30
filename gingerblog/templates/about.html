@@ -1,0 +1,79 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 text-center">
+            <h1 class="display-4 fw-bold text-info mb-3">About Inkwell</h1>
+            <p class="lead text-muted mb-5">Your Digital Haven for Stories, Insights & Creativity.</p>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-10 col-lg-8">
+            <img src="{{ url_for('static', filename='imgs/about-banner.png') }}" alt="Inkwell Blog" class="img-fluid rounded shadow mb-4">
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h3 class="fw-semibold mb-3 text-dark">✨ Welcome to Inkwell</h3>
+            <p class="fs-5 text-justify">
+                Inkwell isn't just a blog — it's a digital home for thinkers, creators, and the ever-curious. 
+                Whether you're here for tech insights, reflections on life, or raw bursts of creativity, this space was built with you in mind.
+                Here, ideas aren’t just written — they’re nurtured, challenged, and set free.
+            </p>
+
+            <h4 class="mt-5 text-info fw-bold">✨ The Power of Words</h4>
+            <p class="fs-5">
+                Great blogs don't just inform — they ignite curiosity, challenge perspectives, and spark conversations that matter. <strong>Inkwell</strong> is a growing collective of voices, ideas, and inspirations built for readers who crave more than just content. 
+                Here, every post is crafted with intention — to inspire, to question, to resonate. Whether you're a dreamer, a doer, or a deep thinker, you're part of something meaningful.
+            </p>
+
+            <div class="mt-5 py-4 px-3 text-center border-top border-2">
+                <h5 class="fw-bold text-dark">✨ Everyone Has a Voice</h5>
+                <p class="text-muted mb-3">
+                    Inkwell is more than just articles — it’s a space where ideas breathe, perspectives matter, and stories connect us.
+                </p>
+                <button class="btn btn-outline-secondary btn-sm" disabled>
+                    🚧 Contributor Access Coming Soon
+                </button>
+            </div>
+            
+            
+            <h4 class="mt-5 text-info fw-bold">🧭 The Vision Behind Inkwell</h4>
+            <p class="fs-5">
+                The internet is full of noise — but what if we created a space for real stories, honest thoughts, and valuable ideas?
+                Inkwell aims to:
+            </p>
+            <ul class="fs-5">
+                <li>💡 Share quality content on programming, development, and digital life</li>
+                <li>📚 Encourage continuous learning through writing and reflection</li>
+                <li>💬 Build a community of open minds and curious hearts</li>
+                <li>🚀 Inspire others to start their own creative journeys</li>
+            </ul>
+
+            <h4 class="mt-5 text-info fw-bold">🛠️ Built With Love & Code</h4>
+            <p class="fs-5">
+                Inkwell is handcrafted using <strong>Flask (Python)</strong>, <strong>Bootstrap</strong>, and a mix of modern web tools.
+                It's not powered by any big CMS — every feature you see is designed, built, and styled from scratch. 
+                That makes this platform not just personal — but meaningful.
+            </p>
+
+            <h4 class="mt-5 text-info fw-bold">🌐 What’s Next?</h4>
+            <p class="fs-5">
+                As Inkwell evolves, you can expect more features — from AI-powered insights to community interactions. 
+                Whether you're a casual reader or a fellow creator, I hope you find something here that sticks with you.
+            </p>
+
+            <div class="text-center mt-5 mb-5">
+                <a href="{{ url_for('main.home') }}" class="btn btn-info btn-lg me-2">Explore Blog</a>
+            </div>
+
+            <p class="text-muted text-center small">
+                Made with 💙 and purpose — Inkwell is always growing, just like the people who read it.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock content %}
