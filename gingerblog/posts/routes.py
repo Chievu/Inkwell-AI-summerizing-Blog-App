@@ -6,6 +6,8 @@ from gingerblog.posts.forms import PostForm, EmptyForm
 from werkzeug.utils import secure_filename
 from gingerblog.posts.utils import save_post_image
 from gingerblog.utils.summarizer import summarize_text
+from gingerblog import cache
+from time import time
 import os
 
 
@@ -73,11 +75,10 @@ def delete_post(post_id):
             if os.path.exists(image_path):
                 os.remove(image_path)
 
-        # 1) Remove all likes associated with the post (delete from Like table)
-        for like in post.likers.all():  # .all() gives a list of all likers
-            db.session.delete(like)  # Delete each like record
+        for like in post.likers.all():  
+            db.session.delete(like)  
 
-        db.session.commit()  # Commit changes to remove the likes
+        db.session.commit() 
 
         db.session.delete(post)
         db.session.commit()
@@ -91,22 +92,36 @@ def delete_post(post_id):
 @posts.route("/like/<int:post_id>", methods=["POST"])
 @login_required
 def like_post(post_id):
-    post = Post.query.get_or_404(post_id)
+    total_start = time()
 
-    existing_like = Like.query.filter_by(user_id=current_user.id, post_id=post.id).first()
+    # Check if the user already liked the post
+    t1 = time()
+    existing_like = Like.query.filter_by(user_id=current_user.id, post_id=post_id).first()
 
+    t2 = time()
     if existing_like:
         db.session.delete(existing_like)
-        db.session.commit()
         liked = False
     else:
-        # Add new like
-        like = Like(user_id=current_user.id, post_id=post.id)
-        db.session.add(like)
-        db.session.commit()
+        db.session.add(Like(user_id=current_user.id, post_id=post_id))
         liked = True
+    print(f"DB Add/Delete like time: {time() - t2:.4f}s")
 
-    like_count = Like.query.filter_by(post_id=post.id).count()
+    t3 = time()
+    db.session.commit()
+
+    t4 = time()
+    like_count = cache.get(f"like_count_{post_id}")
+    if like_count is None:
+        print(" Cache miss: Fetching fresh count from DB")
+        like_count = Like.query.filter_by(post_id=post_id).count()
+    else:
+        print(" Cache hit")
+        like_count = like_count + 1 if liked else like_count - 1
+
+    cache.set(f"like_count_{post_id}", like_count, timeout=300)
+
+    print(f"Total like route time: {time() - total_start:.4f}s")
 
     return jsonify({'likes': like_count, 'liked': liked})
 

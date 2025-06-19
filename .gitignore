@@ -11,3 +11,11 @@ __pycache__/
 .vscode/
 instance/
 *.db
+
+# Uploaded media
+gingerblog/static/post_images/
+gingerblog/static/profile_pics/
+
+# Environment
+sensitive.env
+.env

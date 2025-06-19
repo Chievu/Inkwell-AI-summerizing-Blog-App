@@ -5,14 +5,15 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_wtf import CSRFProtect
-from gingerblog.config import Config
+from flask_migrate import Migrate
 from dotenv import load_dotenv
 from markupsafe import Markup, escape
-from flask_migrate import Migrate
+from flask_caching import Cache 
 
-
-# Load environment variables
+# Load the env variables
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', 'sensitive.env'))
+
+from gingerblog.config import Config
 
 # Initialize extensions
 db = SQLAlchemy()
@@ -22,21 +23,26 @@ login_manager = LoginManager()
 login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 mail = Mail()
-csrf = CSRFProtect() 
+csrf = CSRFProtect()
+
+cache = Cache(config={'CACHE_TYPE': 'SimpleCache'})  
 
 def create_app(config_class=Config):
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(config_class)
 
-    # Initialize extensions with app
+    # Initialize extensions
     db.init_app(app)
     migrate.init_app(app, db)
     bcrypt.init_app(app)
     login_manager.init_app(app)
     mail.init_app(app)
-    csrf.init_app(app)  
+    csrf.init_app(app)
 
-    from gingerblog.models import User, Post
+    cache.init_app(app)
+
+    # Ensure all models are imported so Alembic can detect them properly
+    from gingerblog.models import User, Post, Like
 
     # Register Blueprints
     from gingerblog.main.routes import main
@@ -48,15 +54,13 @@ def create_app(config_class=Config):
     app.register_blueprint(posts)
     app.register_blueprint(errors)
 
-    # Custom Jinja2 filter
     def nl2br(value):
         escaped = escape(value)
         return Markup(escaped.replace('\n', '<br>\n'))
-
     app.jinja_env.filters['nl2br'] = nl2br
 
     @app.shell_context_processor
     def make_shell_context():
-        return {'db': db, 'User': User, 'Post': Post}
+        return {'db': db, 'User': User, 'Post': Post, 'Like': Like}
 
     return app

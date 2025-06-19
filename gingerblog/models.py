@@ -13,14 +13,16 @@ class Like(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
 
-    __table_args__ = (db.UniqueConstraint('user_id', 'post_id', name='unique_user_post_like'),)
+    __table_args__ = (db.UniqueConstraint('user_id', 'post_id', name='unique_user_post_like'),
+                      db.Index('ix_like_user_id', 'user_id'),
+                      db.Index('ix_like_post_id', 'post_id'),)
 
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    image_file = db.Column(db.String(20), nullable=False, default='default.jpeg')
+    image_file = db.Column(db.String(120), nullable=False, default='default.jpeg')
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True)
     likes = db.relationship('Like', backref='user', lazy='dynamic')
@@ -47,8 +49,9 @@ class Post(db.Model):
     title = db.Column(db.String(100), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
-    image_file = db.Column(db.String(20), nullable=True, default='default.jpg')  
+    image_file = db.Column(db.String(100), nullable=True, default='default.jpg')  
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    views = db.Column(db.Integer, default=0)
 
     likers = db.relationship('Like', backref='post', lazy='dynamic', cascade="all, delete")
 
