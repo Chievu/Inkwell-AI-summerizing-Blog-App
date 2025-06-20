@@ -1,4 +1,4 @@
-# Inkwell - AI Summarizing Blog App 
+# Inkwell - AI Summarizing Blog App CREATED BY MSANI
 
 Inkwell is a modern Flask-based blog application enhanced with AI-powered summarization. Users can write, manage, and read blog posts, while the app uses natural language processing to summarize content intelligently.
 
@@ -24,7 +24,7 @@ Inkwell is a modern Flask-based blog application enhanced with AI-powered summar
 
 - **Backend:** Flask, SQLAlchemy, Jinja2
 - **Frontend:** HTML, Bootstrap,css
-- **Database:** SQLite (development) / PostgreSQL (production-ready)
+- **Database:** PostgreSQL (production-ready)
 - **AI:** Custom NLP summarizer (transformers-based or textrank)
 - **Deployment:** Render / GitHub
 
@@ -42,6 +42,9 @@ gingerblog/
 ├── config.py # App configuration
 ├── run.py # App entry point
 
+## 📽️ Demo Video
+[Watch Walkthrough on YouTube]()
+
 
 ##  Installation
 
@@ -54,7 +57,7 @@ pip install -r requirements.txt
 
 Create a .env file (or set environment variables):
 SECRET_KEY=your-secret-key
-SQLALCHEMY_DATABASE_URI=sqlite:///site.db
+SQLALCHEMY_DATABASE_URI=postgresql://inkwell_db_40qs_user:jnTFVe6Ejk4NpanC1THoCIem5LO0XsDF@dpg-d0te95idbo4c739jdrlg-a.singapore-postgres.render.com/inkwell_db_40qs
 
 Then run the app:
 python run.py
